@@ -1,0 +1,39 @@
+foxes are fearsome animals... when they smell yumyum food nearby nothing stops them from getting their treat.
+you must get your freshly picked berries home, without a swarm of foxes trying to pick pocket you out of your
+sweet sweet berries. Distract them, throw them bait, and don't let their cuteness fool you, they will steal
+all your food. Be careful with the ones with a gun or a baseball bat.
+
+SPECIFICATION
+goal: get food form a to b
+gameplay: through random generated forest
+bring berries to goal. completion score depends
+on how many you managed to deliver.
+
+6 objects in game:
+- spawn
+- goal
+- obstacle (tree)
+- decor (grass)
+- fox
+- player
+
+SPAWN: area, safehouse. fox repellent.
+GOAL: your house. after unlocking door you get in.
+OBSTACLE: static trees
+DECOR: grass, skybox pretty stuff.
+FOX: 3 types. normal, melee, ranged.
+- normal: sniff, hear, alert, steal food. physicall block you.
+- melee: not steal food but use you as a pinata
+
+player: simple controller,
+crouch,
+sprint (cooldown),
+movemeent disableable (lockpicking),
+throw and collect decoy
+
+simple ones body block
+the ones with a gun shoot slow parryable bullets
+the baseball ones see you as a pinata
+
+the foxes make fox noises
+they also do sniffings

@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dnigfm7baef4k"]
+
+[ext_resource type="PackedScene" uid="uid://cw2i507egs5xl" path="res://models/land.tscn" id="1_221if"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_d1oin"]
+size = Vector3(1, 2, 1)
+
+[node name="ROOT" type="Node3D" unique_id=505714282]
+
+[node name="ChudGlobals" type="Node" parent="." unique_id=623663835]
+
+[node name="MapParent" type="Node3D" parent="." unique_id=1646830891]
+
+[node name="MainMap" type="Node3D" parent="MapParent" unique_id=360545512]
+
+[node name="land" parent="MapParent/MainMap" unique_id=1950901602 instance=ExtResource("1_221if")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MapParent/MainMap/land" unique_id=864144751]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.72608614, 0)
+mesh = SubResource("BoxMesh_d1oin")

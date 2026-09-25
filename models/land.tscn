@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://cw2i507egs5xl"]
+
+[ext_resource type="PackedScene" uid="uid://b3qkdysdttey6" path="res://models/land.blend" id="1_ocfr8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4b2yt"]
+albedo_color = Color(0.1764706, 1, 0.24705882, 1)
+
+[node name="land" unique_id=1950901602 instance=ExtResource("1_ocfr8")]
+
+[node name="Plane" parent="." index="0" unique_id=1471242752]
+surface_material_override/0 = SubResource("StandardMaterial3D_4b2yt")
