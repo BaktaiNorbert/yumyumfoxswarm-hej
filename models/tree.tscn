@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://dtrrvd37gp6bm"]
+
+[ext_resource type="PackedScene" uid="uid://dn3b10le316uu" path="res://models/tree.blend" id="1_ga66u"]
+[ext_resource type="Script" uid="uid://b140fhxyatasa" path="res://gameplay/tree.gd" id="2_b2hpw"]
+[ext_resource type="Script" uid="uid://dynhohimt3buy" path="res://utils/descend.gd" id="2_cu4xq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s642v"]
+albedo_color = Color(0.75754493, 0.3076699, 9.62615e-07, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_40q6a"]
+albedo_color = Color(0, 0.6509804, 0, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_d1oin"]
+height = 1.0888672
+radius = 0.29589844
+
+[node name="tree" unique_id=1488601443 instance=ExtResource("1_ga66u")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+script = ExtResource("2_b2hpw")
+
+[node name="Cylinder" parent="." index="0" unique_id=509754070]
+surface_material_override/0 = SubResource("StandardMaterial3D_s642v")
+
+[node name="Cylinder_001" parent="." index="1" unique_id=1521223722]
+surface_material_override/0 = SubResource("StandardMaterial3D_40q6a")
+
+[node name="Descend" type="RayCast3D" parent="." index="2" unique_id=91100963]
+target_position = Vector3(0, -100, 0)
+script = ExtResource("2_cu4xq")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="3" unique_id=747214797]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0" unique_id=304958337]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5541992, 0)
+shape = SubResource("CylinderShape3D_d1oin")

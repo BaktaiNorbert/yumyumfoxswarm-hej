@@ -1,13 +1,55 @@
 [gd_scene format=3 uid="uid://dnigfm7baef4k"]
 
 [ext_resource type="PackedScene" uid="uid://cw2i507egs5xl" path="res://models/land.tscn" id="1_221if"]
+[ext_resource type="Script" uid="uid://bjneq8eeljddy" path="res://utils/time_2.gd" id="1_o6ud5"]
+[ext_resource type="Script" uid="uid://dgbwcglxyjnug" path="res://player/movement.gd" id="2_gbs2n"]
+[ext_resource type="Script" uid="uid://vaehsu8vxtwo" path="res://player/look.gd" id="3_bueq0"]
+[ext_resource type="Script" uid="uid://d10h5w0mh3ql2" path="res://maps/tree_spawner.gd" id="3_l4otn"]
+[ext_resource type="Script" uid="uid://creru5r4ew21g" path="res://gameplay/noise_emitter.gd" id="5_l4q7b"]
+[ext_resource type="PackedScene" uid="uid://dtrrvd37gp6bm" path="res://models/tree.tscn" id="6_5s0cu"]
+[ext_resource type="PackedScene" uid="uid://kok6rvfoe4ex" path="res://models/house.tscn" id="8_s0ed1"]
+[ext_resource type="PackedScene" uid="uid://byf4nuvta11y3" path="res://models/bush.tscn" id="9_aondc"]
+[ext_resource type="Shader" uid="uid://dhdelcbdad8bk" path="res://maps/vignette.gdshader" id="10_x87vv"]
+[ext_resource type="Script" uid="uid://cop4arki63n3c" path="res://gameplay/vignette.gd" id="11_x8uvx"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_d1oin"]
 size = Vector3(1, 2, 1)
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_s0ed1"]
+sky_top_color = Color(0.22265735, 0.5305317, 0.96369714, 1)
+sky_horizon_color = Color(0.65951526, 0.75174403, 0.8990945, 1)
+sky_curve = 0.060918998
+ground_bottom_color = Color(0.29679888, 0.37631336, 0.9127766, 1)
+ground_horizon_color = Color(0, 0.25683326, 0.67, 1)
+ground_curve = 0.04438283
+sun_curve = 0.21961287
+
+[sub_resource type="Sky" id="Sky_l4otn"]
+sky_material = SubResource("ProceduralSkyMaterial_s0ed1")
+process_mode = 3
+
+[sub_resource type="Environment" id="Environment_d1oin"]
+background_mode = 2
+sky = SubResource("Sky_l4otn")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_d1oin"]
+radius = 0.3
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_d1oin"]
+radius = 5.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aondc"]
+shader = ExtResource("10_x87vv")
+shader_parameter/vignette_color = Color(0, 0, 0, 1)
+shader_parameter/radius = 1.0
+shader_parameter/softness = 0.5200000247
+
 [node name="ROOT" type="Node3D" unique_id=505714282]
 
 [node name="ChudGlobals" type="Node" parent="." unique_id=623663835]
+
+[node name="Time2" type="Node" parent="ChudGlobals" unique_id=1728334335]
+script = ExtResource("1_o6ud5")
 
 [node name="MapParent" type="Node3D" parent="." unique_id=1646830891]
 
@@ -16,5 +58,64 @@ size = Vector3(1, 2, 1)
 [node name="land" parent="MapParent/MainMap" unique_id=1950901602 instance=ExtResource("1_221if")]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="MapParent/MainMap/land" unique_id=864144751]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.72608614, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.72608614, -2.304037)
 mesh = SubResource("BoxMesh_d1oin")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="MapParent/MainMap/land" unique_id=852819297]
+transform = Transform3D(0.7323543, 0.34820402, -0.5851591, 0, 0.85936064, 0.51137006, 0.6809238, -0.37450403, 0.62935644, 0, 0, 0)
+light_color = Color(1, 0.89053315, 0.8523993, 1)
+
+[node name="TreeSpawner" type="Node3D" parent="MapParent/MainMap/land" unique_id=737976139]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 30, -100)
+script = ExtResource("3_l4otn")
+tree = ExtResource("6_5s0cu")
+random_deviance_off_grid = 3.6
+spawn_chance = 0.45
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="MapParent/MainMap/land" unique_id=1205283972]
+environment = SubResource("Environment_d1oin")
+
+[node name="Player" type="CharacterBody3D" parent="MapParent/MainMap" unique_id=538049308 node_paths=PackedStringArray("camera_node", "noise_emitter")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0575876, 0)
+script = ExtResource("2_gbs2n")
+gravity = -9.81
+camera_node = NodePath("CameraParent")
+noise_emitter = NodePath("NoiseEmitter")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MapParent/MainMap/Player" unique_id=1083891184]
+shape = SubResource("CapsuleShape3D_d1oin")
+
+[node name="CameraParent" type="Node3D" parent="MapParent/MainMap/Player" unique_id=601072254]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.59509826, 0)
+
+[node name="Camera" type="Camera3D" parent="MapParent/MainMap/Player/CameraParent" unique_id=1399589419]
+script = ExtResource("3_bueq0")
+
+[node name="NoiseEmitter" type="ShapeCast3D" parent="MapParent/MainMap/Player" unique_id=1658238743]
+shape = SubResource("SphereShape3D_d1oin")
+script = ExtResource("5_l4q7b")
+
+[node name="tree" parent="." unique_id=1488601443 instance=ExtResource("6_5s0cu")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 1.8576009, -0.22849166, -0.8300984)
+
+[node name="house" parent="." unique_id=596377279 instance=ExtResource("8_s0ed1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.252468, -1.6502008, 15.558559)
+
+[node name="bush" parent="." unique_id=631269565 instance=ExtResource("9_aondc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.432125, 1.0985196, 50.568382)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1893762013]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=741792131]
+material = SubResource("ShaderMaterial_aondc")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.01, 1.01)
+script = ExtResource("11_x8uvx")

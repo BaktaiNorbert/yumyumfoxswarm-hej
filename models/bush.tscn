@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://byf4nuvta11y3"]
+
+[ext_resource type="PackedScene" uid="uid://b5dlv5lwg1elb" path="res://models/bush.blend" id="1_0sdh7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s0ed1"]
+albedo_color = Color(0.13399999, 0.67, 0.15186664, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aondc"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_d1oin"]
+size = Vector3(1.3267212, 1.763916, 2.5604248)
+
+[node name="bush" unique_id=631269565 instance=ExtResource("1_0sdh7")]
+
+[node name="Icosphere" parent="." index="0" unique_id=571881651]
+surface_material_override/0 = SubResource("StandardMaterial3D_s0ed1")
+
+[node name="Icosphere_001" parent="." index="1" unique_id=99104678]
+surface_material_override/0 = SubResource("StandardMaterial3D_aondc")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="2" unique_id=1061432129]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0" unique_id=709278590]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.045074463, 0, -0.3423462)
+shape = SubResource("BoxShape3D_d1oin")
