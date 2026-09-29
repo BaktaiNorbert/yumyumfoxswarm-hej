@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dtrrvd37gp6bm" path="res://models/tree.tscn" id="6_5s0cu"]
 [ext_resource type="PackedScene" uid="uid://kok6rvfoe4ex" path="res://models/house.tscn" id="8_s0ed1"]
 [ext_resource type="PackedScene" uid="uid://byf4nuvta11y3" path="res://models/bush.tscn" id="9_aondc"]
+[ext_resource type="PackedScene" uid="uid://daavigtontnim" path="res://models/fox.tscn" id="10_1752u"]
 [ext_resource type="Shader" uid="uid://dhdelcbdad8bk" path="res://maps/vignette.gdshader" id="10_x87vv"]
 [ext_resource type="Script" uid="uid://cop4arki63n3c" path="res://gameplay/vignette.gd" id="11_x8uvx"]
 
@@ -103,6 +104,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.252468, -1.6502008, 15.558
 
 [node name="bush" parent="." unique_id=631269565 instance=ExtResource("9_aondc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.432125, 1.0985196, 50.568382)
+
+[node name="foxA" parent="." unique_id=219503389 instance=ExtResource("10_1752u")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -1.2590332, 0.2536291, 1.9541836)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1893762013]
 

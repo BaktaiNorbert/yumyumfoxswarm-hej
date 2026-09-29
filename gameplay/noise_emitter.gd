@@ -10,6 +10,7 @@ func emit_noise(radius : float = -1.0):
 		return
 	if Time2.time < _last_time + UPDATE_LIMIT and _last_radius >= radius:
 		return
+	print(radius)
 	_last_time = Time2.time
 	_last_radius = radius
 	if radius >= 0:
@@ -17,5 +18,5 @@ func emit_noise(radius : float = -1.0):
 		shape.radius = radius
 	for i in range(get_collision_count()):
 		var c = get_collider(i)
-		if (c.get_parent() as Node3D).has_method("alarm"):
-			c.get_parent().alarm()
+		if (c as Node3D).has_method("alarm"):
+			c.alarm(self)

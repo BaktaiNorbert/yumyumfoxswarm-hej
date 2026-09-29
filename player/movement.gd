@@ -57,7 +57,7 @@ func _physics_process(delta : float) -> void:
 	if _dodge_charge <= 1.0:
 		_dodge_charge += delta
 	
-	if not _last_frame_on_floor and is_on_floor():
+	if not _last_frame_on_floor and is_on_floor() and Time2.time > 3.0:
 		noise_emitter.emit_noise(8.0)
 		landed.emit()
 		
@@ -96,20 +96,49 @@ func _physics_process(delta : float) -> void:
 		Vignette.singleton.set_intensity(1.0)
 		
 	if applied_speed == speed:
-		noise_emitter.emit_noise(3.5)
+		if wasd_input.length() > .15:
+			noise_emitter.emit_noise(3.5)
 		Vignette.singleton.set_intensity(0.52)
 		
 	if is_on_floor():
-		velocity.x = direction.x * applied_speed
-		velocity.z = direction.z * applied_speed
+		velocity.x = lerp(velocity.x, direction.x * applied_speed, 0.2)
+		velocity.z = lerp(velocity.z, direction.z * applied_speed, 0.2)
 	else:
 		velocity.x = lerp(velocity.x, direction.x * applied_speed, 0.03)
 		velocity.z = lerp(velocity.z, direction.z * applied_speed, 0.03)
 	if not is_on_floor():
-		velocity.y += gravity * delta * (1 if velocity.y > 0 else SPICY_FALL_EXTRA_MULTIPLIER)
+		velocity.y += gravity * delta * (1.0 if velocity.y > 0.0 else SPICY_FALL_EXTRA_MULTIPLIER)
 	
 	move_and_slide()
 
+	var n  : int = get_slide_collision_count()
+	for i in range(n):
+		var collision : KinematicCollision3D = get_slide_collision(i)
+		var avg_vel : Vector3 = Vector3.ZERO
+		for k in range(collision.get_collision_count()):
+			avg_vel+=abs(collision.get_collider_velocity(k))
+		avg_vel += abs(velocity) + direction * applied_speed
+		avg_vel /= collision.get_collision_count()
+		for k in range(collision.get_collision_count()):
+			var physobj : Node3D = collision.get_collider(k) as Node3D
+			var force = (physobj.global_position - collision.get_position(k)).normalized() * avg_vel
+			force += Vector3(0,1,0)
+			force *= 3
+			if physobj.has_method("apply_force"):
+				physobj.apply_force(force)
+				apply_force(-force)
+			if physobj.get_parent().has_method("apply_force"):
+				physobj.get_parent().apply_force(force)
+				apply_force(-force)
+
+const FORCE_COOLDOWN : float = 0.4
+var last_force : float = 0.0
+func apply_force(force : Vector3):
+	if last_force + FORCE_COOLDOWN <= Time2.time:
+		last_force = Time2.time
+		print(force)
+		force.y = abs(force.y)
+		velocity += force
 
 func _jump():
 	velocity.y = jump_force
